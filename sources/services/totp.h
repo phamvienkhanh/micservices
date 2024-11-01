@@ -24,7 +24,12 @@ class TOTP {
             rs.append(" ");
         }
 
-        con.send(rs);
+        if (rs.empty()) {
+            con.send("invalid command");
+
+        } else {
+            con.send(rs);
+        }
     }
 
     std::string generate(const std::string& input, int timeStep = 30, int digits = 6) {

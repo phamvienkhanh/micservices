@@ -3,6 +3,6 @@
 
 #include <iostream>
 
-#define slog(mesg) std::cout << mesg << std::endl
+#define slog(mesg) std::cout << mesg << "\n"
 
 #endif
