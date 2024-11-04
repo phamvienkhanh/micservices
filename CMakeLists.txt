@@ -3,7 +3,10 @@ project(app_server LANGUAGES CXX)
 
 set(SOURCES 
     sources/main.cpp    
+    3rd/stb/stb_image.cpp
     sources/core/base_services.cpp
+    sources/core/window_manager.cpp
+    sources/core/base_window.cpp
     sources/core/utils.cpp
     sources/core/connection.cpp
     sources/services/router.cpp
@@ -11,13 +14,15 @@ set(SOURCES
 )
 
 add_executable(app_server ${SOURCES})
-target_link_directories(app_server PRIVATE 3rd/libuv/lib)
+target_link_directories(app_server PRIVATE 3rd/libuv/lib 3rd/zxing/lib)
 target_include_directories(app_server 
     PRIVATE 
         3rd/libuv/include
+        3rd/zxing/include
+        3rd/stb
         sources
 )
-target_link_libraries(app_server PRIVATE -luv -lcrypto)
+target_link_libraries(app_server PRIVATE -luv -lcrypto -lZXing -lglfw -lGL)
 
 add_executable(client 
     sources/client.cpp 

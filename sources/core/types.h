@@ -8,7 +8,6 @@
 struct WriteReq {
     uv_write_t req;
     uv_buf_t buff;
-    std::string data;
 };
 
 #endif

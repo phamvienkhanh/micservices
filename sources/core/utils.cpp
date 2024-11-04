@@ -22,6 +22,9 @@ void freeWriteReqCb(uv_write_t* req, int status) {
     }
 
     WriteReq* wr = (WriteReq*)req;
+    if (wr && wr->buff.len) {
+        delete wr->buff.base;
+    }
     free(wr);
 }
 

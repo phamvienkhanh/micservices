@@ -15,9 +15,11 @@ void Connection::send(const std::string& data) const {
     mesgFrame.append((char*)&mesgSize, 4);
     mesgFrame.append(data);
 
+    char* prtMesgFrame = new char[mesgFrame.size()];
+    mesgFrame.copy(prtMesgFrame, mesgFrame.size());
+
     WriteReq* req = (WriteReq*)malloc(sizeof(WriteReq));
-    req->data = mesgFrame;
-    req->buff = uv_buf_init((char*)mesgFrame.data(), mesgFrame.size());
+    req->buff = uv_buf_init(prtMesgFrame, mesgFrame.size());
     uv_write((uv_write_t*)req, _stream, &req->buff, 1, freeWriteReqCb);
 }
 
