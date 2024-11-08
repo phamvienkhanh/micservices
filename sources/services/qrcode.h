@@ -18,8 +18,8 @@ class QRcode {
     void handle(const std::string& data, const Connection& con) {
         auto inputs = strSplit(data, ' ');
         std::string rs;
-        for (const auto& code : inputs) {
-            auto codes = read(code);
+        for (const auto& input : inputs) {
+            auto codes = read(input);
             for (const auto& code : codes) {
                 rs += code;
                 rs += "\n==============================\n";
@@ -47,6 +47,25 @@ class QRcode {
             std::array{ZXing::ImageFormat::None, ZXing::ImageFormat::Lum, ZXing::ImageFormat::LumA,
                        ZXing::ImageFormat::RGB, ZXing::ImageFormat::RGBA};
         ZXing::ImageView img{data, width, height, ImageFormatFromChannels.at(channels)};
+
+        ZXing::Barcodes codes = ZXing::ReadBarcodes(img, options);
+
+        std::vector<std::string> rs;
+        for (const auto& it : codes) {
+            rs.push_back(it.text());
+        }
+
+        return rs;
+    }
+
+    std::vector<std::string> read(const uint8_t* data, int w, int h, int channels) {
+        ZXing::ReaderOptions options;
+        options.setFormats(ZXing::BarcodeFormat::QRCode | ZXing::BarcodeFormat::MicroQRCode |
+                           ZXing::BarcodeFormat::RMQRCode);
+        options.setTextMode(ZXing::TextMode::HRI);
+        options.setEanAddOnSymbol(ZXing::EanAddOnSymbol::Read);
+
+        ZXing::ImageView img{data, w, h, ZXing::ImageFormat::BGRA};
 
         ZXing::Barcodes codes = ZXing::ReadBarcodes(img, options);
 

@@ -10,4 +10,12 @@ struct WriteReq {
     uv_buf_t buff;
 };
 
+struct Position {
+    int x, y;
+};
+
+struct Size {
+    int w, h;
+};
+
 #endif

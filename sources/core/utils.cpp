@@ -1,10 +1,13 @@
 
 #include "utils.h"
 
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 
 #include <algorithm>
+#include <chrono>
 #include <cstdlib>
 #include <map>
 #include <sstream>
@@ -99,4 +102,10 @@ std::string toLower(const std::string& input) {
     std::string output = input;  // Create a copy of the input string
     std::transform(output.begin(), output.end(), output.begin(), [](unsigned char c) { return std::tolower(c); });
     return output;
+}
+
+uint64_t currentMs() {
+    auto now = std::chrono::system_clock::now();
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+    return ms;
 }

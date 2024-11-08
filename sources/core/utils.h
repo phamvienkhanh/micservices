@@ -17,4 +17,6 @@ std::vector<std::string> strSplitFirts(const std::string& str, char delimiter);
 std::string base32Decode(const std::string& input);
 std::string toLower(const std::string& input);
 
+uint64_t currentMs();
+
 #endif
